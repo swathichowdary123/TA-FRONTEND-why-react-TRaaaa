@@ -1,62 +1,64 @@
-function createElement(tag, attributes, ...children) {
-    const element = document.createElement(tag);
-
-    // Add attributes
-    if (attributes) {
-        for (const key in attributes) {
-            element.setAttribute(key, attributes[key]);
-        }
-    }
-
-    // Add children
-    children.forEach(child => {
-        if (typeof child === 'string') {
-            element.appendChild(document.createTextNode(child));
-        } else {
-            element.appendChild(child);
-        }
-    });
-
-    return element;
-}
-
-// Define movie data
-const movies = [
-    { title: "The Shawshank Redemption", director: "Frank Darabont", watched: true },
-    { title: "The Godfather", director: "Francis Ford Coppola", watched: false },
-    { title: "The Dark Knight", director: "Christopher Nolan", watched: true },
-    { title: "Pulp Fiction", director: "Quentin Tarantino", watched: false }
+let input=document.querySelector(`input[type="text"]`);
+let rootElm=document.querySelector('.movies_list');
+let allMovies=[
+    {
+        name:'forest Gump',
+        watched:false,
+    },
+    {
+        name:'inception',
+        watched:true,
+    },
 ];
-
-// Function to render movie list
-function renderMovies(movies) {
-    const movieList = document.getElementById('movie-list');
-    movieList.innerHTML = '';
-
-    movies.forEach(movie => {
-        const movieItem = createElement('li', { class: 'movie' },
-            createElement('span', { class: 'movie-title' }, movie.title),
-            createElement('span', { class: 'movie-director' }, `Directed by: ${movie.director}`),
-            createElement('button', { class: 'watched-btn' }, movie.watched ? 'Watched' : 'To Watch'),
-        );
-
-        movieList.appendChild(movieItem);
-    });
-}
-
-// Function to toggle movie watched status
-function toggleWatchedStatus(event) {
-    if (event.target.tagName === 'BUTTON') {
-        const movieItem = event.target.closest('.movie');
-        const index = Array.from(movieItem.parentElement.children).indexOf(movieItem);
-
-        movies[index].watched = !movies[index].watched;
-        renderMovies(movies);
+input.addEventListener('keyup',(event)=>{
+    if(event.keyCode===13){
+        allMovies.push({
+            name:event.target.value,
+            watched:false,
+        });
+        event.target.value='';
+        createMovieUI(allMovies,rootElm);
     }
-}
-
-// Event listener for button click
-document.getElementById('movie-list').addEventListener('click', toggleWatchedStatus);
-
-// Initial render
-renderMovies(movies);
+  });
+  function handleChange(event){
+    let id=event.target.id;
+    allMovies[id].watched=!allMovies[id].watched;
+    createMovieUI(allMovies,rootElm);
+  }
+    function createMovieUI(data,root){
+        root.innerHTML='';
+        data.forEach((movie,i) => {
+            let li=createElement('li');
+            let button=document.createElement('button');
+            button.id=i;
+            button.innerText=movie.watched ? 'watched': 'to watched';
+            button.addEventListener('click',handleChange);
+            let label=document.createElement('label');
+            label.for=i;
+            label.innerText=movie.name;
+            li.append(label,button);
+            rootElm.append(li);
+        });
+    }
+    createMovieUI(allMovies,rootElm);
+    function createElement(type,attr={},...children){
+        let element=document.createElement(type);
+        for(let key in attr){
+            if(key.startsWith('data-')){
+                element.setAttribute(key,attr[key]);
+            }
+            else{
+                element[key]=attr[key];
+            }
+        }
+        children.forEach((child)=>{
+            if(typeof child==='object'){
+                element.append(child);
+            }
+            if(typeof child==='string'){
+                let node=document.createTextNode(child);
+                element.append(node);
+            }
+        })
+        return element;
+    }
