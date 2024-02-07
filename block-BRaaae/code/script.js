@@ -26,18 +26,10 @@ input.addEventListener('keyup',(event)=>{
     createMovieUI(allMovies,rootElm);
   }
     function createMovieUI(data,root){
-        root.innerHTML='';
-        data.forEach((movie,i) => {
-            let li=createElement('li');
-            let button=document.createElement('button');
-            button.id=i;
-            button.innerText=movie.watched ? 'watched': 'to watched';
-            button.addEventListener('click',handleChange);
-            let label=document.createElement('label');
-            label.for=i;
-            label.innerText=movie.name;
-            li.append(label,button);
-            rootElm.append(li);
+        data.map((movie,i) => {
+            return react.createElement('li',null,react.createElement('label',{for:i},movie.name),react.createElement('button',{id:i,onclick:handleChange},
+            movie.watched?'watched':'to watch'));
+            ReactDom.render(li,root);
         });
     }
     createMovieUI(allMovies,rootElm);
@@ -46,6 +38,10 @@ input.addEventListener('keyup',(event)=>{
         for(let key in attr){
             if(key.startsWith('data-')){
                 element.setAttribute(key,attr[key]);
+            }
+            else if(key.startsWith('on')){
+                let eventType=key.replace('on','').toLowerCase();
+                element.addEventListener(eventType,attr[key]);
             }
             else{
                 element[key]=attr[key];
