@@ -11,7 +11,8 @@
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script type="text/babel">
-        let articles = [
+         let root=document.querySelector('.column');
+      let articles = [
   {
     title: 'City Lights in New York',
     date: new Date('2017-01-26'),
@@ -48,40 +49,41 @@
       'https://techcrunch.com/wp-content/uploads/2019/07/GettyImages-846875220.jpg?w=1390&crop=1',
   },
 ];
-
-        const Article = (props) => {
-  const { title, date, comments, subTitle, description, category, imageURL } = props.article;
-  
-  return (
-    <div className="card">
-      <img src={imageURL} alt={title} className="card-img" />
-      <div className="card-content">
-        <h2 className="card-title">{title}</h2>
-        <p className="card-subtitle">{subTitle}</p>
-        <p className="card-description">{description}</p>
-        <div className="card-footer">
-          <span className="card-date">{date.toDateString()}</span>
-          <span className="card-comments">{comments} Comments</span>
-          <span className="card-category">{category}</span>
-        </div>
-      </div>
-    </div>
+      function Article(props){
+        console.log(props);
+     return (
+        <div className="post-module hover">
+                <div className="thumbnail">
+                    <div className="date">
+                        <div className="day">{props.articleInfo.getDate()}</div>
+                        <div className="month"></div>
+                    </div>
+                    <img src={props.articleInfo.imageURL} />
+                </div>
+                <div className="post-content">
+                    <div className="category">{props.articleInfo.category}</div>
+                    <h1 className="title">{props.articleInfo.title}</h1>
+                    <h2 className="sub_title">{props.articleInfo.subTitle}</h2>
+                    <p className="description">{props.articleInfo.description}</p>
+                    <div className="post-meta">
+                        <span className="timestamp">
+                            <i className="fa-solid fa-clock-rotate-left"></i>
+                            6 mins ago
+                        </span>
+                        <span className="comments">
+                            <i className="fa-regular fa-comments"></i>
+                            39 comments
+                        </span>
+                    </div>
+                </div>
+            </div>
   );
-};
-
-// Articles component
-const Articles = ({ articles }) => {
-  return (
-    <div className="card-container">
-      {articles.map((article, index) => (
-        <Article key={index} article={article} />
-      ))}
-    </div>
-  );
-};
-
-// Render articles
-ReactDOM.render(<Articles articles={articles} />, document.getElementById('root'));
+ }
+  function Articles(){
+    return articles.map((article) => <Article articleInfo={article} />)
+  }
+  ReactDOM.render(<Articles />,root);
+        
     </script>
 </body>
 </html>
