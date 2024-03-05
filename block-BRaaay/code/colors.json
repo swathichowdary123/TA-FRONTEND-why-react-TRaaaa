@@ -132,16 +132,16 @@
     "#5c940d"
   ],
   "yellow": [
-    "#fff9db",
-    "#fff3bf",
-    "#ffec99",
-    "#ffe066",
-    "#ffd43b",
-    "#fcc419",
-    "#fab005",
-    "#f59f00",
-    "#f08c00",
-    "#e67700"
+    {"name": "Yellow 50", "hex": "#fff9db"},
+    {"name": "Yellow 100", "hex": "#fff3bf"},
+    {"name": "Yellow 200", "hex": "#ffec99"},
+    {"name": "Yellow 300", "hex": "#ffe066"},
+    {"name": "Yellow 400", "hex": "#ffd43b"},
+    {"name": "Yellow 500", "hex": "#fcc419"},
+    {"name": "Yellow 600", "hex": "#fab005"},
+    {"name": "Yellow 700", "hex": "#f59f00"},
+    {"name": "Yellow 800", "hex": "#f08c00"},
+    {"name": "Yellow 900", "hex": "#e67700"}
   ],
   "orange": [
     "#fff4e6",
